@@ -1,3 +1,5 @@
+from pl_evalexception import EvalException
+import pl_environment
 #!/usr/bin/env python
 """ generated source for module Node """
 
@@ -160,7 +162,7 @@ class NodeRelop(Node):
             return 1 if o1 != o2 else 0
         if self.relop == "==":
             return 1 if o1 == o2 else 0
-        raise EvalException(pos, "bogus relop: " + self.relop)
+        raise EvalException(self.pos, "bogus relop: " + self.relop)
 
 
 class NodeFactExpr(NodeFact):
@@ -199,6 +201,7 @@ class NodeFactNum(NodeFact):
     def eval(self, env):
         """ generated source for method eval """
         return float(self.num)
+
 
 class NodeIfElse(Node):
     """ generated source for class NodeIfElse """
@@ -322,3 +325,46 @@ class NodeWr(Node):
         val = self.expr.eval(env)
         print(val)
         return val
+
+# when the function is called which will have as its children the function name, the name of the argument, and the expression
+class NodeFuncDecl(Node):
+    
+    def __init__(self, func_name, arg, expr):
+        super(NodeFuncDecl, self).__init__()
+        self.func_name = func_name
+        self.arg = arg
+        self.expr = expr
+    
+    def eval(self, env):
+        val = (self.func_name, self.expr)
+        env.putF(self.func_name, val)
+        
+
+class NodeFuncCall(Node):
+
+    def __init__(self, func_name, expr):
+        super(NodeFuncCall, self).__init__()
+        self.func_name = func_name
+        self.expr = expr
+
+    def eval(self, env):
+        copy_env = env.copy()
+        expr_eval = self.expr.eval(env)
+        arg = copy_env.getF(self.pos, self.func_name)[0]
+        expr = copy_env.getF(self.pos, self.func_name)[1]
+        copy_env.put(arg.lex(), expr_eval)
+
+        return expr.eval(copy_env)
+
+
+class FunctionPerform(Node):
+
+    def __init__(self, func_name, arg, expr):
+        super(FunctionPerform).__init__()
+        self.func_name = func_name
+        self.arg = arg
+        self.expr = expr
+
+    def call(self, env):
+        return
+

@@ -86,6 +86,12 @@ class Parser(object):
         if self.curr() == Token("id"):
             nid = self.curr()
             self.match("id")
+            funcExpr = None
+            if self.curr() == Token("("):
+                self.match("(")
+                funcExpr = self.parseExpr()
+                self.match(")")
+                return NodeFuncCall(nid.lex(), funcExpr)
             return NodeFactId(self.pos(), nid.lex())
         num = self.curr()
         self.match("num")
@@ -165,6 +171,19 @@ class Parser(object):
         begin = NodeBegin(block)
         return begin
 
+    def parseDeclaration(self): #
+        self.match('def')
+        _id = self.curr()
+        self.match("id")
+        self.match('(')
+        arg = self.curr()
+        self.match("id")
+        self.match(')')
+        self.match('=')
+        expr = self.parseExpr()
+        declar = NodeFuncDecl(_id.lex(), arg, expr)
+        return declar
+
     def parseStmt(self):
         """ generated source for method parseStmt """
         if self.curr() == Token("id"):
@@ -179,11 +198,15 @@ class Parser(object):
         if self.curr() == Token("if"):
             ifelse = self.parseIfElse()
             return NodeStmt(ifelse)
+        if self.curr() == Token('def'): #
+            declar = self.parseDeclaration #
+            return NodeStmt(declar) #
         if self.curr() == Token("while"):
             whiledo = self.parseWhileDo()
             return NodeStmt(whiledo)
         begin = self.parseBegin()
         return NodeStmt(begin)
+        
 
     def parseBlock(self):
         """ generated source for method parseBlock """

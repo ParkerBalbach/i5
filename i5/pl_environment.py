@@ -12,6 +12,7 @@ class Environment(object):
         self.map = {}
         self.funcMap = {}
 
+
     def put(self, var, val):
         """ generated source for method put """
         self.map[var] = val
@@ -22,3 +23,20 @@ class Environment(object):
         if var in self.map:
             return self.map[var]
         raise EvalException(pos, "undefined variable: " + var)
+
+    def putF(self, var, val):
+
+        self.funcMap[var] = val
+        return val
+
+    def getF(self, pos, var):
+        if var in self.funcMap:
+            return self.map[var]
+        raise EvalException(pos, "undefined variable: " + var)
+
+
+    def copy(self):
+        copyEnv = Environment()
+        copyEnv.map = dict(self.map)
+        copyEnv.funcMap = dict(self.funcMap)
+        return copyEnv
