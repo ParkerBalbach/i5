@@ -172,7 +172,7 @@ class Parser(object):
         return begin
 
     def parseDeclaration(self): #
-        self.match('def')
+        self.match("def")
         _id = self.curr()
         self.match("id")
         self.match('(')
@@ -198,7 +198,7 @@ class Parser(object):
         if self.curr() == Token("if"):
             ifelse = self.parseIfElse()
             return NodeStmt(ifelse)
-        if self.curr() == Token('def'): #
+        if self.curr() == Token("def"): #
             declar = self.parseDeclaration #
             return NodeStmt(declar) #
         if self.curr() == Token("while"):

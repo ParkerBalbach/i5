@@ -24,15 +24,15 @@ class Environment(object):
             return self.map[var]
         raise EvalException(pos, "undefined variable: " + var)
 
-    def putF(self, var, val):
+    def putF(self, _id, val):
 
-        self.funcMap[var] = val
+        self.funcMap[_id] = val
         return val
 
-    def getF(self, pos, var):
-        if var in self.funcMap:
-            return self.map[var]
-        raise EvalException(pos, "undefined variable: " + var)
+    def getF(self, pos, _id):
+        if _id in self.funcMap:
+            return self.funcMap[_id]
+        raise EvalException(pos, "undefined variable: " + _id)
 
 
     def copy(self):
