@@ -27,7 +27,7 @@ class Environment(object):
     def putF(self, _id, val):
 
         self.funcMap[_id] = val
-        return val
+        return _id
 
     def getF(self, pos, _id):
         if _id in self.funcMap:

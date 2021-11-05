@@ -334,13 +334,11 @@ class NodeFuncDecl(Node):
         self.func_name = func_name
         self.arg = arg
         self.expr = expr
-        print("func name: ", func_name)
-        print("arg: ", arg)
-        print("expr", expr)
     
     def eval(self, env):
         val = (self.func_name, self.expr)
-        env.putF(self.func_name, val)
+      #  env.putF(self.func_name, val)
+        env.funcMap[self.func_name] = val
         
 
 class NodeFuncCall(Node):

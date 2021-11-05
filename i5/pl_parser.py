@@ -171,7 +171,7 @@ class Parser(object):
         begin = NodeBegin(block)
         return begin
 
-    def parseDeclaration(self): #
+    def parseDeclaration(self):
         self.match("def")
         _id = self.curr()
         self.match("id")
@@ -181,7 +181,7 @@ class Parser(object):
         self.match(')')
         self.match('=')
         expr = self.parseExpr()
-        declar = NodeFuncDecl(_id.lex(), arg, expr)
+        declar = NodeFuncDecl(_id, arg, expr)
         return declar
 
     def parseStmt(self):
@@ -199,7 +199,7 @@ class Parser(object):
             ifelse = self.parseIfElse()
             return NodeStmt(ifelse)
         if self.curr() == Token("def"): #
-            declar = self.parseDeclaration #
+            declar = self.parseDeclaration() #
             return NodeStmt(declar) #
         if self.curr() == Token("while"):
             whiledo = self.parseWhileDo()
