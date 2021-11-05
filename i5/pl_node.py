@@ -353,18 +353,7 @@ class NodeFuncCall(Node):
         arg = copy_env.getF(self.pos, self.func_name)[0]
         expr = copy_env.getF(self.pos, self.func_name)[1]
         copy_env.put(arg.lex(), expr_eval)
-
         return expr.eval(copy_env)
 
 
-class FunctionPerform(Node):
-
-    def __init__(self, func_name, arg, expr):
-        super(FunctionPerform).__init__()
-        self.func_name = func_name
-        self.arg = arg
-        self.expr = expr
-
-    def call(self, env):
-        return
 
